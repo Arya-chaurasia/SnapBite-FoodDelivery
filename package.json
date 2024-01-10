@@ -1,0 +1,11 @@
+{
+  "name": "snapbite",
+  "version": "1.0.0",
+  "description": "",
+  "main": "App.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "Arya Chaurasia",
+  "license": "ISC"
+}
