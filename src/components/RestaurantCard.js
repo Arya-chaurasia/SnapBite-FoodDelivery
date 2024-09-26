@@ -2,7 +2,6 @@ import { CDN_URL } from "../utils/constants";
 
 const RestaurantCard = (props) => {
   const { resData } = props;
-  console.log("RestaurantCard Props:", props);
 
   const {
     cloudinaryImageId = '',
@@ -14,18 +13,26 @@ const RestaurantCard = (props) => {
   } = resData?.info || {};
 
   return (
-    <div className="m-4 p-4 w-[250px] lg:h-[30rem] rounded-lg bg-gray-100 hover:bg-gray-200">
+    <div className="m-4 p-4 w-[300px] rounded-lg bg-white shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out">
       <img
-        className="rounded-lg"
+        className="rounded-lg w-full h-[160px] object-cover"
         alt={name || "Restaurant Image"}
         src={CDN_URL + cloudinaryImageId}
-        onError={(e) => e.target.src = 'fallback-image-url'} // Optional fallback image URL
+        onError={(e) => (e.target.src = 'fallback-image-url')} // Fallback image
       />
-      <h3 className="font-bold py-3 text-lg">{name}</h3>
-      <h4>{cuisines.length > 0 ? cuisines.join(", ") : 'No cuisines available'}</h4>
-      <h4>{avgRating !== 'N/A' ? `${avgRating} stars` : 'Rating not available'}</h4>
-      <h4>{costForTwo}</h4>
-      <h4>{sla?.slaString || 'Delivery time not available'}</h4>
+      <div className="mt-3">
+        <h3 className="font-bold text-lg text-gray-800 hover:text-orange-600 transition duration-200">{name}</h3>
+        <h4 className="text-gray-600 text-sm mt-1">
+          {cuisines.length > 0 ? cuisines.join(", ") : 'No cuisines available'}
+        </h4>
+        <div className="flex justify-between items-center mt-2">
+          <h4 className={`text-sm ${avgRating !== 'N/A' ? 'text-green-600' : 'text-red-500'} font-semibold`}>
+            {avgRating !== 'N/A' ? `${avgRating} ★` : 'Rating not available'}
+          </h4>
+          <h4 className="text-gray-600 text-sm">{costForTwo}</h4>
+        </div>
+        <h4 className="text-gray-500 text-sm mt-1">{sla?.slaString || 'Delivery time not available'}</h4>
+      </div>
     </div>
   );
 };
@@ -33,12 +40,14 @@ const RestaurantCard = (props) => {
 export const withPromotedLabel = (RestaurantCard) => {
   return (props) => {
     return (
-      <div>
-        <label>Promoted</label>
+      <div className="relative">
+        <label className="absolute bg-yellow-400 text-xs font-bold px-2 py-1 rounded-full top-2 right-2 shadow-sm">
+          Promoted
+        </label>
         <RestaurantCard {...props} />
       </div>
-    )
-  }
-}
+    );
+  };
+};
 
 export default RestaurantCard;
